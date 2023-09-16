@@ -4,7 +4,7 @@
 import os
 
 # Import Flask app, modules and extensions
-from flask import Flask, render_template
+from flask import _test, render_template
 from flask_admin import Admin
 
 # Import local modules
@@ -27,7 +27,7 @@ DEFAULT_APP_NAME = 'flaskapp'
 
 def create_app(package_name):
     """Flask app factory."""
-    app = Flask(package_name)
+    app = _test(package_name, instance_relative_config=False)
 
     configure_app(app)
 
