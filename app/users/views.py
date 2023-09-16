@@ -202,7 +202,7 @@ def confirm_email(token):
     return redirect(url_for(ACTION_2))
 
 
-@users.route('/reset', methods=["GET", "POST"])
+@users.route('/reset', methods=["GET"])
 def reset():
     form = EmailForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -237,7 +237,7 @@ def reset():
     return render_template('users/reset.html', form=form)
 
 
-@users.route('/reset/<token>', methods=["GET", "POST"])
+@users.route('/reset/<token>', methods=["GET"])
 def reset_with_token(token):
     try:
         ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
