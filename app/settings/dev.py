@@ -12,6 +12,7 @@ SQLALCHEMY_DATABASE_URI = 'postgres://flask:flask@example.com/testdb'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_ENABLE_UTC = False
 CELERY_BROKER_URL = 'redis://redis:6379/0'
