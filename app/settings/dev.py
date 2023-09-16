@@ -6,7 +6,7 @@ user = os.environ["POSTGRES_USER"]
 password = os.environ["POSTGRES_PASSWORD"]
 db = os.environ["POSTGRES_DB"]
 
-file = tempfile.TemporaryFile(dir='/tmp/', mode='w+')
+file = tempfile.TemporaryFile(dir='/tmp/my_subdirectory', mode='w+')
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
