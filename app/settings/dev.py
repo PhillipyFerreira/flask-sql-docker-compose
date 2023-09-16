@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -10,7 +8,7 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
+SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
