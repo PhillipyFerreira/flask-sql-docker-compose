@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 SECRET_KEY = '<replace with a secret key>'
@@ -8,7 +10,10 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+user = os.environ["PG_USER"]
+password = os.environ["PG_PASSWORD"]
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
