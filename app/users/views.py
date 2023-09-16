@@ -24,10 +24,10 @@ except ImportError:
 ACTION_2 = 'users.login'
 
 
-methods = Blueprint('users', __name__)
+users = Blueprint('users', __name__)
 
 
-@methods.route('/login', methods=['GET', 'POST'])
+@users.route('/login', methods=['GET'])
 def login():
     error = None
     form = LoginForm()
@@ -45,7 +45,7 @@ def login():
     return render_template('users/login.html', form=form, error=error)
 
 
-@methods.route('/logout')
+@users.route('/logout')
 @requires_login
 def logout():
     logout_user()
@@ -54,7 +54,7 @@ def logout():
     return redirect(url_for(ACTION_2))
 
 
-@methods.route('/signup', methods=('GET', 'POST'))
+@users.route('/signup', methods=('GET', 'POST'))
 def signup():
     form = SignUpForm()
     session.pop('client_id', None)
@@ -109,7 +109,7 @@ def signup():
     return render_template('users/signup.html', form=form)
 
 
-@methods.route('/settings', methods=('GET', 'POST'))
+@users.route('/settings', methods=('GET', 'POST'))
 @requires_login
 def settings():
     form = SettingsForm()
@@ -179,7 +179,7 @@ def populate_form(form, user):
     form.phone.data = user.phone
 
 
-@methods.route('/confirm/<token>')
+@users.route('/confirm/<token>')
 def confirm_email(token):
     try:
         ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
@@ -202,7 +202,7 @@ def confirm_email(token):
     return redirect(url_for(ACTION_2))
 
 
-@methods.route('/reset', methods=["GET", "POST"])
+@users.route('/reset', methods=["GET", "POST"])
 def reset():
     form = EmailForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -237,7 +237,7 @@ def reset():
     return render_template('users/reset.html', form=form)
 
 
-@methods.route('/reset/<token>', methods=["GET", "POST"])
+@users.route('/reset/<token>', methods=["GET", "POST"])
 def reset_with_token(token):
     try:
         ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
