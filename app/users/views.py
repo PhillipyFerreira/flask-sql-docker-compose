@@ -123,7 +123,7 @@ def settings():
                not User.query.filter_by(email=form.email.data).scalar():
                 flash(u"This email already exist.", 'error')
                 error = True
-            if not(user.phone == form.phone.data) and \
+            if user.phone != form.phone.data and \
                User.query.filter_by(phone=form.phone.data).scalar():
                 flash(u"This phone already exist.", 'error')
                 error = True
