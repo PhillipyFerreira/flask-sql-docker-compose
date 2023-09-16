@@ -12,9 +12,9 @@ LOG_FOLDER = '/tmp/'
 # O código tem uma falha de segurança em que seja alterada e removida do código com isso realizei a importação da (os) criando uma variante para o usuario e senha #
 import os
 
-user = os.userFull
-password = os.fullstack
-SQLALCHEMY_DATABASE_URI = 'postgresql://userFull:fullstack@postgresql/flask'
+user = os.userFull["PG_USER"]
+password = os.fullstack["PG_PASSWORD"]
+SQLALCHEMY_DATABASE_URI = f"postgresql://userFull:fullstack@postgresql/flask"
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
