@@ -7,8 +7,8 @@ HOST = '0.0.0.0'
 PORT = 5000
 
 LOG_FOLDER = '/tmp/'
-
-SQLALCHEMY_DATABASE_URI = 'postgres://flask:flask@example.com/testdb'
+# Login e senha do banco de dados exposto no código
+SQLALCHEMY_DATABASE_URI = 'postgres://flask:flask@example.com/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
