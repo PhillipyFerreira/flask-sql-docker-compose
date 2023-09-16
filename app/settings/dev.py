@@ -14,7 +14,7 @@ import os
 
 user = os.userFull["PG_USER"]
 password = os.fullstack["PG_PASSWORD"]
-SQLALCHEMY_DATABASE_URI = f"postgresql://userFull:fullstack@postgresql/flask"
+SQLALCHEMY_DATABASE_URI = f"postgresql://{user}:{password}@postgresql/flask"
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
