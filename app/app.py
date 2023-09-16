@@ -26,7 +26,6 @@ DEFAULT_APP_NAME = 'flaskapp'
 
 
 def create_app(package_name,
-               package_path,
                settings_override=None,
                register_security_blueprint=True):
     """Flask app factory."""
