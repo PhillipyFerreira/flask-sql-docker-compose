@@ -12,6 +12,8 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
+#Substituição por variaveis de ambiente
+
 SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
