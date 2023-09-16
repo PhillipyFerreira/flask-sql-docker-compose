@@ -42,8 +42,8 @@ def create_app(package_name,
 
     return app
 
-
-def configure_app(app):
+#não é possível remover parâmetro não usado pq gera bug , em que espera-se 1 argumento
+def configure_app(app, config=None):
     """Configure application."""
     app.config.from_object('settings.base')
     if not app.config['TESTING']:
