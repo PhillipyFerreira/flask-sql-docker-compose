@@ -22,6 +22,7 @@ except ImportError:
     # migrations hack
     pass
 
+USER_LOGIN_ROUTE = 'users.login'
 
 users = Blueprint('users', __name__)
 
@@ -40,7 +41,7 @@ def login():
         else:
             logging.debug("Login failed.")
             flash(u"Login failed.", 'error')
-            return redirect(url_for('users.login'))
+            return redirect(url_for(USER_LOGIN_ROUTE))
     return render_template('users/login.html', form=form, error=error)
 
 
@@ -50,7 +51,7 @@ def logout():
     logout_user()
     session.pop('client_id', None)
     flash(u"You were logged out", 'success')
-    return redirect(url_for('users.login'))
+    return redirect(url_for(USER_LOGIN_ROUTE))
 
 
 @users.route('/signup', methods=('GET', 'POST'))
@@ -104,7 +105,7 @@ def signup():
         logging.debug("New account was successfully created.")
         flash(msg, 'success')
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(USER_LOGIN_ROUTE))
     return render_template('users/signup.html', form=form)
 
 
@@ -119,11 +120,11 @@ def settings():
     if request.method == 'POST' and form.validate_on_submit():
         if user.check_password(form.password.data):
             error = False
-            if not(user.email == form.email.data) and \
+            if user.email != form.email.data and \
                not User.query.filter_by(email=form.email.data).scalar():
                 flash(u"This email already exist.", 'error')
                 error = True
-            if not(user.phone == form.phone.data) and \
+            if user.phone != form.phone.data and \
                User.query.filter_by(phone=form.phone.data).scalar():
                 flash(u"This phone already exist.", 'error')
                 error = True
@@ -170,7 +171,7 @@ def confirm_email(token):
     """
     flash(msg, 'success')
     logging.debug("Account {0} is active now.".format(email))
-    return redirect(url_for('users.login'))
+    return redirect(url_for(USER_LOGIN_ROUTE))
 
 
 @users.route('/reset', methods=["GET", "POST"])
@@ -204,7 +205,7 @@ def reset():
             Please, check your email.
         """
         flash(msg, 'error')
-        return redirect(url_for('users.login'))
+        return redirect(url_for(USER_LOGIN_ROUTE))
     return render_template('users/reset.html', form=form)
 
 
@@ -222,6 +223,6 @@ def reset_with_token(token):
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(USER_LOGIN_ROUTE))
     return render_template(
         'users/reset_with_token.html', form=form, token=token)
