@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+#Mudança que eu fiz para corrigir os erros.
 user = os.environ["PG_USER"]
 password = os.environ["PG_PASSWORD"]
 
