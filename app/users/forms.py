@@ -9,6 +9,8 @@ from flask_wtf import FlaskForm, RecaptchaField
 from database import db
 from users.models import User
 
+#Substituição de valores repetidos por variável local
+PASSWORD_MUST_MATCH='Passwords must match.'
 
 class EmailForm(FlaskForm):
     """Email form for reset password."""
@@ -28,7 +30,7 @@ class PasswordForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=PASSWORD_MUST_MATCH)
         ]
     )
 
@@ -84,7 +86,7 @@ class SignUpForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=PASSWORD_MUST_MATCH)
         ]
     )
     recaptcha = RecaptchaField()
@@ -132,7 +134,7 @@ class SettingsForm(FlaskForm):
     confirm = PasswordField(
         u'Repeat new password',
         validators=[
-            EqualTo('new_password', message=u'Passwords must match.')
+            EqualTo('new_password', message=PASSWORD_MUST_MATCH)
         ]
     )
     recaptcha = RecaptchaField()
