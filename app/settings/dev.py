@@ -8,13 +8,7 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-import os
-
-user = os.environ["PG_USER"]
-password = os.environ["PG_PASSWORD"]
-uri = f"postgres://{user}:{password}@example.com/testdb"
-
-SQLALCHEMY_DATABASE_URI = 'postgres://{user}:{password}@example.com/testdb'
+SQLALCHEMY_DATABASE_URI = 'postgres://flask:flask@example.com/testdb'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
