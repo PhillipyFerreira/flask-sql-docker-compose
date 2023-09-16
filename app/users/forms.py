@@ -8,7 +8,7 @@ from flask_wtf import FlaskForm, RecaptchaField
 
 from database import db
 from users.models import User
-
+ACTION_1 = "Passwords must match." 
 
 class EmailForm(FlaskForm):
     """Email form for reset password."""
@@ -17,7 +17,7 @@ class EmailForm(FlaskForm):
         validators=[DataRequired(), Email(), Length(max=128)]
     )
 
-
+#Entendi que a seguinte mensagem "Passwords must match." se repetem 3x e o código diz para definir uma constante  #
 class PasswordForm(FlaskForm):
     """Password form."""
     password = PasswordField(
@@ -28,8 +28,9 @@ class PasswordForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=ACTION_1)
         ]
+        
     )
 
 
@@ -84,7 +85,7 @@ class SignUpForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=ACTION_1)
         ]
     )
     recaptcha = RecaptchaField()
@@ -132,7 +133,7 @@ class SettingsForm(FlaskForm):
     confirm = PasswordField(
         u'Repeat new password',
         validators=[
-            EqualTo('new_password', message=u'Passwords must match.')
+            EqualTo('new_password', message=ACTION_1)
         ]
     )
     recaptcha = RecaptchaField()
