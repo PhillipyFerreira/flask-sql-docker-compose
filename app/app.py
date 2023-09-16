@@ -27,7 +27,7 @@ DEFAULT_APP_NAME = 'flaskapp'
 
 def create_app(package_name):
     """Flask app factory."""
-    app = Flask(package_name, instance_relative_config=True)
+    app = Flask(package_name)
 
     configure_app(app)
 
