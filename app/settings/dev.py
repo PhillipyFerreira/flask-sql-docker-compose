@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import tempfile
 
 user = os.environ["POSTGRES_USER"]
 password = os.environ["POSTGRES_PASSWORD"]
 db = os.environ["POSTGRES_DB"]
+
+file = tempfile.TemporaryFile(dir='/tmp/', mode='w+')
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -11,7 +14,7 @@ SECRET_KEY = '<replace with a secret key>'
 HOST = '0.0.0.0'
 PORT = 5000
 
-LOG_FOLDER = '/tmp/'
+LOG_FOLDER = file
 
 SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/{db}'
 SQLALCHEMY_ECHO = True

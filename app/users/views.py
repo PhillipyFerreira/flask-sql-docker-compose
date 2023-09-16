@@ -26,23 +26,27 @@ except ImportError:
 users = Blueprint('users', __name__)
 login_url = 'users.login'
 
-
-@users.route('/login', methods=['GET', 'POST'])
+@users.route('/login', methods=['POST'])
 def login():
-    error = None
     form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    
+    if form.validate_on_submit():
         user = db.session.query(User).get(form.user.id)
+        
         if user.check_password(form.password.data):
             login_user(user)
             session['client_id'] = user.id
-            return redirect(
-                request.args.get('next') or url_for('default_index'))
+            return redirect(request.args.get('next') or url_for('default_index'))
         else:
             logging.debug("Login failed.")
             flash(u"Login failed.", 'error')
-            return redirect(url_for(login_url))
-    return render_template('users/login.html', form=form, error=error)
+    
+    return redirect(url_for(login_url))  # Redireciona para a página inicial em caso de falha no login
+
+@users.route('/login', methods=['GET'])
+def login_form():
+    form = LoginForm()
+    return render_template('users/login.html', form=form)
 
 
 @users.route('/logout')
@@ -54,11 +58,11 @@ def logout():
     return redirect(url_for(login_url))
 
 
-@users.route('/signup', methods=('GET', 'POST'))
+@users.route('/signup', methods=('POST'))
 def signup():
     form = SignUpForm()
     session.pop('client_id', None)
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         logging.debug("Email: {0}".format(form.email.data))
         check_user = User.query.filter_by(email=form.email.data).first()
         print(check_user)
@@ -105,11 +109,16 @@ def signup():
         logging.debug("New account was successfully created.")
         flash(msg, 'success')
         db.session.commit()
-        return redirect(url_for(login_url))
+    return redirect(url_for(login_url))
+
+
+@users.route('/signup', methods=('GET'))
+def signup():
+    form = SignUpForm()
+    session.pop('client_id', None)
     return render_template('users/signup.html', form=form)
 
-
-@users.route('/settings', methods=('GET', 'POST'))
+@users.route('/settings', methods=('POST'))
 @requires_login
 def settings():
     form = SettingsForm()
@@ -118,7 +127,7 @@ def settings():
     if not user:
         abort(404)
 
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         if user.check_password(form.password.data):
             if not is_email_unique(form.email.data, user) or not is_phone_unique(form.phone.data, user):
                 return redirect_with_error("This email or phone already exist.", 'error')
@@ -130,6 +139,17 @@ def settings():
             return redirect_with_error("Please, check password again.", 'error')
     else:
         populate_form_with_user_data(form, user)
+
+    return render_template('users/settings.html', form=form)
+
+@users.route('/settings', methods=('GET'))
+@requires_login
+def settings():
+    form = SettingsForm()
+    user = db.session.query(User).get(current_user.get_id())
+
+    if not user:
+        abort(404)
 
     return render_template('users/settings.html', form=form)
 
