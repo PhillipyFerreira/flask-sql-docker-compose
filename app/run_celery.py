@@ -11,14 +11,14 @@ def make_celery(app=None):
     app = app or create_app('celeryapp', os.path.dirname(__file__))
     celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
     celery.conf.update(app.config)
-    Taskapp = celery.Task
+    taskapp = celery.Task
 
-    class ContextTask(Taskapp):
+    class ContextTask(taskapp):
         abstract = True
 
         def __call__(self, *args, **kwargs):
             with app.app_context():
-                return Taskapp.__call__(self, *args, **kwargs)
+                return taskapp.__call__(self, *args, **kwargs)
 
     celery.Task = ContextTask
 
