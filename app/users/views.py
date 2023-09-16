@@ -21,6 +21,7 @@ try:
 except ImportError:
     # migrations hack
     pass
+ACTION_2 = 'users.login'
 
 
 users = Blueprint('users', __name__)
@@ -40,7 +41,7 @@ def login():
         else:
             logging.debug("Login failed.")
             flash(u"Login failed.", 'error')
-            return redirect(url_for('users.login'))
+            return redirect(url_for(ACTION_2))
     return render_template('users/login.html', form=form, error=error)
 
 
@@ -50,7 +51,7 @@ def logout():
     logout_user()
     session.pop('client_id', None)
     flash(u"You were logged out", 'success')
-    return redirect(url_for('users.login'))
+    return redirect(url_for(ACTION_2))
 
 
 @users.route('/signup', methods=('GET', 'POST'))
@@ -104,7 +105,7 @@ def signup():
         logging.debug("New account was successfully created.")
         flash(msg, 'success')
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(ACTION_2))
     return render_template('users/signup.html', form=form)
 
 
@@ -112,42 +113,70 @@ def signup():
 @requires_login
 def settings():
     form = SettingsForm()
-    try:
-        user = db.session.query(User).get(current_user.get_id())
-    except TypeError:
+    user = get_current_user()
+
+    if not user:
         abort(404)
+
     if request.method == 'POST' and form.validate_on_submit():
-        if user.check_password(form.password.data):
-            error = False
-            if not(user.email == form.email.data) and \
-               not User.query.filter_by(email=form.email.data).scalar():
-                flash(u"This email already exist.", 'error')
-                error = True
-            if not(user.phone == form.phone.data) and \
-               User.query.filter_by(phone=form.phone.data).scalar():
-                flash(u"This phone already exist.", 'error')
-                error = True
-            user.email = form.email.data
-            user.phone = form.phone.data
-            new_password = form.new_password.data
-            confirm = form.confirm.data
-            if new_password and confirm and new_password == confirm:
-                user.set_password(new_password)
-            elif new_password and confirm:
-                flash(u"Passwords don't match.", 'error')
-            error = True
-            if not error:
-                db.session.add(user)
-                db.session.commit()
-                flash(u"Your changes have been saved.", 'success')
-            return redirect(url_for('users.settings'))
-        else:
+        if not user.check_password(form.password.data):
             flash(u"Please, check password again.", 'error')
-            return redirect(url_for('users.settings'))
-    else:
-        form.email.data = user.email
-        form.phone.data = user.phone
+            return redirect_to_settings()
+
+        if is_email_or_phone_taken(form, user):
+            return redirect_to_settings()
+
+        update_user_details(user, form)
+
+        db.session.add(user)
+        db.session.commit()
+        flash(u"Your changes have been saved.", 'success')
+        return redirect_to_settings()
+
+    populate_form(form, user)
     return render_template('users/settings.html', form=form)
+
+
+def get_current_user():
+    try:
+        return db.session.query(User).get(current_user.get_id())
+    except TypeError:
+        return None
+
+
+def redirect_to_settings():
+    return redirect(url_for('users.settings'))
+
+
+def is_email_or_phone_taken(form, user):
+    if (user.email != form.email.data) and User.query.filter_by(email=form.email.data).scalar():
+        flash(u"This email already exists.", 'error')
+        return True
+
+    if (user.phone != form.phone.data) and User.query.filter_by(phone=form.phone.data).scalar():
+        flash(u"This phone already exists.", 'error')
+        return True
+
+    return False
+
+
+def update_user_details(user, form):
+    user.email = form.email.data
+    user.phone = form.phone.data
+
+    new_password = form.new_password.data
+    confirm = form.confirm.data
+
+    if new_password and confirm:
+        if new_password == confirm:
+            user.set_password(new_password)
+        else:
+            flash(u"Passwords don't match.", 'error')
+
+
+def populate_form(form, user):
+    form.email.data = user.email
+    form.phone.data = user.phone
 
 
 @users.route('/confirm/<token>')
@@ -170,7 +199,7 @@ def confirm_email(token):
     """
     flash(msg, 'success')
     logging.debug("Account {0} is active now.".format(email))
-    return redirect(url_for('users.login'))
+    return redirect(url_for(ACTION_2))
 
 
 @users.route('/reset', methods=["GET", "POST"])
@@ -204,7 +233,7 @@ def reset():
             Please, check your email.
         """
         flash(msg, 'error')
-        return redirect(url_for('users.login'))
+        return redirect(url_for(ACTION_2))
     return render_template('users/reset.html', form=form)
 
 
@@ -222,6 +251,6 @@ def reset_with_token(token):
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(ACTION_2))
     return render_template(
         'users/reset_with_token.html', form=form, token=token)
