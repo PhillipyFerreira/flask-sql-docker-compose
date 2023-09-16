@@ -6,15 +6,13 @@ user = os.environ["POSTGRES_USER"]
 password = os.environ["POSTGRES_PASSWORD"]
 db = os.environ["POSTGRES_DB"]
 
-file = tempfile.TemporaryFile(dir='/tmp/my_subdirectory', mode='w+')
-
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
 SECRET_KEY = '<replace with a secret key>'
 HOST = '0.0.0.0'
 PORT = 5000
 
-LOG_FOLDER = file
+LOG_FOLDER = tempfile.mkdtemp()
 
 SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/{db}'
 SQLALCHEMY_ECHO = True

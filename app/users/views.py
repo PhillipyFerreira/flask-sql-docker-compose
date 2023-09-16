@@ -264,12 +264,6 @@ def reset_with_token(token):
 
 @users.route('/reset/<token>', methods=["GET"])
 def reset_with_token(token):
-    try:
-        ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
-        email = ts.loads(token, salt="recover-key", max_age=86400)
-    except Exception as e:
-        logging.error(e)
-        abort(404)
     form = PasswordForm()
     return render_template(
         'users/reset_with_token.html', form=form, token=token)
