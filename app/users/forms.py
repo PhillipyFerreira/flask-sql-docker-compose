@@ -9,6 +9,7 @@ from flask_wtf import FlaskForm, RecaptchaField
 from database import db
 from users.models import User
 
+diffent_password='Passwords must match.'
 
 class EmailForm(FlaskForm):
     """Email form for reset password."""
@@ -28,7 +29,7 @@ class PasswordForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=diffent_password)
         ]
     )
 
@@ -84,7 +85,7 @@ class SignUpForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=diffent_password)
         ]
     )
     recaptcha = RecaptchaField()
@@ -132,7 +133,7 @@ class SettingsForm(FlaskForm):
     confirm = PasswordField(
         u'Repeat new password',
         validators=[
-            EqualTo('new_password', message=u'Passwords must match.')
+            EqualTo('new_password', message=diffent_password)
         ]
     )
     recaptcha = RecaptchaField()
