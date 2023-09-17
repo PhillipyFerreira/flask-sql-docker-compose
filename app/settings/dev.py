@@ -3,6 +3,8 @@
 import os
 dbUser = os.environ["PG_USER"]
 dbPassword = os.environ["PG_PASSWORD"]
+mailUser = os.environ["MAIL_USERNAME"]
+mailPassword = os.environ["MAIL_PASSWORD"]
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -28,6 +30,6 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 MAIL_SERVER = 'postfix'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
-MAIL_USERNAME = 'postfix'
-MAIL_PASSWORD = 'postfix'
+MAIL_USERNAME = mailUser
+MAIL_PASSWORD = mailPassword
 MAIL_DEFAULT_SENDER = 'support@postfix'
