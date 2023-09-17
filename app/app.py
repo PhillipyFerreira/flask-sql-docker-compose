@@ -24,7 +24,7 @@ __all__ = ['create_app']
 
 DEFAULT_APP_NAME = 'flaskapp'
 
-
+#No caso dos code smells indicados eu mantive os parâmetros não utilizados pois eles são importantes para a função caso queira reutiliza-la no futuro
 def create_app(package_name,
                package_path,
                settings_override=None,
@@ -44,7 +44,7 @@ def create_app(package_name,
 
     return app
 
-
+#No caso dos code smells indicados eu mantive os parâmetros não utilizados pois eles são importantes para a função caso queira reutiliza-la no futuro
 def configure_app(app, config=None):
     """Configure application."""
     app.config.from_object('settings.base')
