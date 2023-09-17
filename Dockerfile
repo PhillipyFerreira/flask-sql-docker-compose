@@ -1,5 +1,5 @@
-FROM python:2.7.11-slim
-
+FROM python:2.7.11-slim 
+#A imagem python é executada com root como usuário padrão.
 MAINTAINER Ivan Gorbachev <ip0000h@gmail.com>
 
 RUN apt-get update && apt-get install -qq -y --no-install-recommends \

@@ -26,11 +26,11 @@ DEFAULT_APP_NAME = 'flaskapp'
 
 
 def create_app(package_name,
-               package_path,
-               settings_override=None,
-               register_security_blueprint=True):
+               #package_path não está utilizado    
+               settings_override=None):
+               #register_security_blueprint=True não está utilizado
     """Flask app factory."""
-    app = Flask(package_name, instance_relative_config=False)
+    app = Flask(package_name, instance_relative_config=False)   #CSRF está desabilitado 
 
     configure_app(app, settings_override)
 
@@ -45,7 +45,7 @@ def create_app(package_name,
     return app
 
 
-def configure_app(app, config=None):
+def configure_app(app): #config=None não está utilizado
     """Configure application."""
     app.config.from_object('settings.base')
     if not app.config['TESTING']:
