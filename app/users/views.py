@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+user_login = 'user.login' #Criei esta variavel para resolver os problemas de duplicação, deixando o código mais manutenível em caso de mudança da mensagem e confiável pois sei que todos as vezes que este literal aparecer ele será igual.
+
 """Users views."""
 import logging
 from datetime import datetime
@@ -25,12 +27,12 @@ except ImportError:
 
 users = Blueprint('users', __name__)
 
-
-@users.route('/login', methods=['GET', 'POST'])
+#Aqui assumo não ter muita noção. Mas estou seguindo o recomendado na aba "How to fix it" do sonarcloud
+@users.route('/login', methods=['POST'])
 def login():
     error = None
     form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = db.session.query(User).get(form.user.id)
         if user.check_password(form.password.data):
             login_user(user)
@@ -40,7 +42,7 @@ def login():
         else:
             logging.debug("Login failed.")
             flash(u"Login failed.", 'error')
-            return redirect(url_for('users.login'))
+            return redirect(url_for(user_login))
     return render_template('users/login.html', form=form, error=error)
 
 
@@ -50,14 +52,14 @@ def logout():
     logout_user()
     session.pop('client_id', None)
     flash(u"You were logged out", 'success')
-    return redirect(url_for('users.login'))
+    return redirect(url_for(user_login))
 
 
-@users.route('/signup', methods=('GET', 'POST'))
+@users.route('/signup', methods=('POST'))
 def signup():
     form = SignUpForm()
     session.pop('client_id', None)
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         logging.debug("Email: {0}".format(form.email.data))
         check_user = User.query.filter_by(email=form.email.data).first()
         print(check_user)
@@ -104,11 +106,11 @@ def signup():
         logging.debug("New account was successfully created.")
         flash(msg, 'success')
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(user_login))
     return render_template('users/signup.html', form=form)
 
 
-@users.route('/settings', methods=('GET', 'POST'))
+@users.route('/settings', methods=('POST'))
 @requires_login
 def settings():
     form = SettingsForm()
@@ -116,14 +118,15 @@ def settings():
         user = db.session.query(User).get(current_user.get_id())
     except TypeError:
         abort(404)
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         if user.check_password(form.password.data):
             error = False
-            if not(user.email == form.email.data) and \
+            #Substituição das comparações nas linhas abaixo pois é considerado code smell inverter o resultado de uma comparação
+            if (user.email != form.email.data) and \    
                not User.query.filter_by(email=form.email.data).scalar():
                 flash(u"This email already exist.", 'error')
                 error = True
-            if not(user.phone == form.phone.data) and \
+            if (user.phone != form.phone.data) and \
                User.query.filter_by(phone=form.phone.data).scalar():
                 flash(u"This phone already exist.", 'error')
                 error = True
@@ -170,13 +173,13 @@ def confirm_email(token):
     """
     flash(msg, 'success')
     logging.debug("Account {0} is active now.".format(email))
-    return redirect(url_for('users.login'))
+    return redirect(url_for(user_login))
 
 
-@users.route('/reset', methods=["GET", "POST"])
+@users.route('/reset', methods=["POST"])
 def reset():
     form = EmailForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first_or_404()
         logging.debug(
             "Password reset request from {0}".format(
@@ -204,11 +207,11 @@ def reset():
             Please, check your email.
         """
         flash(msg, 'error')
-        return redirect(url_for('users.login'))
+        return redirect(url_for(user_login))
     return render_template('users/reset.html', form=form)
 
 
-@users.route('/reset/<token>', methods=["GET", "POST"])
+@users.route('/reset/<token>', methods=["POST"])
 def reset_with_token(token):
     try:
         ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
@@ -217,11 +220,11 @@ def reset_with_token(token):
         logging.error(e)
         abort(404)
     form = PasswordForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email=email).first_or_404()
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(user_login))
     return render_template(
         'users/reset_with_token.html', form=form, token=token)

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+pss_match = u'Passwords must match.' #Criei esta variavel para resolver os problemas de duplicação, deixando o código mais manutenível em caso de mudança da mensagem e confiável pois sei que todos as vezes que este literal aparecer ele será igual.
+
 """Users forms."""
 from wtforms import TextField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, EqualTo, Email, Length
@@ -28,7 +30,7 @@ class PasswordForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message= pss_match) 
         ]
     )
 
@@ -84,7 +86,7 @@ class SignUpForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message=pss_match)
         ]
     )
     recaptcha = RecaptchaField()
@@ -132,7 +134,7 @@ class SettingsForm(FlaskForm):
     confirm = PasswordField(
         u'Repeat new password',
         validators=[
-            EqualTo('new_password', message=u'Passwords must match.')
+            EqualTo('new_password', message=pss_match)
         ]
     )
     recaptcha = RecaptchaField()
