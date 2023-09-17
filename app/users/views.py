@@ -27,11 +27,11 @@ USERS_LOGIN = "users.login"
 users = Blueprint('users', __name__)
 
 
-@users.route('/login', methods=['GET', 'POST'])
+@users.route('/login', methods=['POST'])
 def login():
     error = None
     form = LoginForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = db.session.query(User).get(form.user.id)
         if user.check_password(form.password.data):
             login_user(user)
@@ -174,10 +174,10 @@ def confirm_email(token):
     return redirect(url_for(USERS_LOGIN))
 
 
-@users.route('/reset', methods=["GET", "POST"])
+@users.route('/reset', methods=["POST"])
 def reset():
     form = EmailForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first_or_404()
         logging.debug(
             "Password reset request from {0}".format(
@@ -209,7 +209,7 @@ def reset():
     return render_template('users/reset.html', form=form)
 
 
-@users.route('/reset/<token>', methods=["GET", "POST"])
+@users.route('/reset/<token>', methods=["POST"])
 def reset_with_token(token):
     try:
         ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
@@ -218,7 +218,7 @@ def reset_with_token(token):
         logging.error(e)
         abort(404)
     form = PasswordForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email=email).first_or_404()
         user.set_password(form.password.data)
         db.session.add(user)
