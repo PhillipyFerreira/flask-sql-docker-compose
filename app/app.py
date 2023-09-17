@@ -6,6 +6,7 @@ import os
 # Import Flask app, modules and extensions
 from flask import Flask, render_template
 from flask_admin import Admin
+from flask_wtf.csrf import CSRFProtect
 
 # Import local modules
 from admin.views import AdminUserView
