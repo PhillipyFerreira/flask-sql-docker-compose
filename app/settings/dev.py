@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import tempfile
+
 dbUser = os.environ["PG_USER"]
 dbPassword = os.environ["PG_PASSWORD"]
 mailUser = os.environ["MAIL_USERNAME"]
@@ -12,7 +14,7 @@ SECRET_KEY = '<replace with a secret key>'
 HOST = '0.0.0.0'
 PORT = 5000
 
-LOG_FOLDER = '/tmp/'
+LOG_FOLDER = tempfile.mkdtemp()
 
 SQLALCHEMY_DATABASE_URI = 'postgresql://{dbUser}:{dbPassword}@postgresql/flask'
 SQLALCHEMY_ECHO = True
