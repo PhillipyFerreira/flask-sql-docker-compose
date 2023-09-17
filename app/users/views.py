@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+usrlog = 'users.login'
+
 """Users views."""
 import logging
 from datetime import datetime
@@ -40,7 +42,7 @@ def login():
         else:
             logging.debug("Login failed.")
             flash(u"Login failed.", 'error')
-            return redirect(url_for('users.login'))
+            return redirect(url_for(usrlog))
     return render_template('users/login.html', form=form, error=error)
 
 
@@ -50,7 +52,7 @@ def logout():
     logout_user()
     session.pop('client_id', None)
     flash(u"You were logged out", 'success')
-    return redirect(url_for('users.login'))
+    return redirect(url_for(usrlog))
 
 
 @users.route('/signup', methods=('GET', 'POST'))
@@ -104,7 +106,7 @@ def signup():
         logging.debug("New account was successfully created.")
         flash(msg, 'success')
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(usrlog))
     return render_template('users/signup.html', form=form)
 
 
@@ -170,7 +172,7 @@ def confirm_email(token):
     """
     flash(msg, 'success')
     logging.debug("Account {0} is active now.".format(email))
-    return redirect(url_for('users.login'))
+    return redirect(url_for(usrlog))
 
 
 @users.route('/reset', methods=["GET", "POST"])
@@ -204,7 +206,7 @@ def reset():
             Please, check your email.
         """
         flash(msg, 'error')
-        return redirect(url_for('users.login'))
+        return redirect(url_for(usrlog))
     return render_template('users/reset.html', form=form)
 
 
@@ -222,6 +224,6 @@ def reset_with_token(token):
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('users.login'))
+        return redirect(url_for(usrlog))
     return render_template(
         'users/reset_with_token.html', form=form, token=token)
