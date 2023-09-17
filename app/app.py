@@ -25,9 +25,9 @@ __all__ = ['create_app']
 DEFAULT_APP_NAME = 'flaskapp'
 
 
-def create_app(package_name,
+def create_app(package_name):
                #package_path não está utilizado    
-               settings_override=None):
+               #settings_override=None não está utilizado
                #register_security_blueprint=True não está utilizado
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=False)   #CSRF está desabilitado 
