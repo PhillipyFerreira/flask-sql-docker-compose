@@ -30,7 +30,7 @@ def create_app(package_name,
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=False)
 
-    configure_app(app, settings_override)
+    configure_app(app)
 
     configure_logging(app)
 
