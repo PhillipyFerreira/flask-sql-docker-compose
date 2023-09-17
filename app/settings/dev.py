@@ -21,9 +21,12 @@ CELERY_RESULT_PERSISTENT = True
 CELERYD_POOL_RESTARTS = True
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 
-MAIL_SERVER = 'postfix'
-MAIL_PORT = 25
-MAIL_USE_TLS = False
-MAIL_USERNAME = 'postfix'
-MAIL_PASSWORD = 'postfix'
-MAIL_DEFAULT_SENDER = 'support@postfix'
+from decouple import config
+
+# Configurações de E-mail
+MAIL_SERVER = config('MAIL_SERVER')
+MAIL_PORT = config('MAIL_PORT', default=25, cast=int)
+MAIL_USE_TLS = config('MAIL_USE_TLS', default=False, cast=bool)
+MAIL_USERNAME = config('MAIL_USERNAME')
+MAIL_PASSWORD = config('MAIL_PASSWORD')
+MAIL_DEFAULT_SENDER = config('MAIL_DEFAULT_SENDER')
