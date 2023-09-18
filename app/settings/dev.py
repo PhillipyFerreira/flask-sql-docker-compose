@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import tempfile
 
 user = os.environ["PG_USER"]
 password = os.environ["PG_PASSWORD"]
