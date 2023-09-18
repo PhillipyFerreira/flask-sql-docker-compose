@@ -2,6 +2,8 @@ FROM python:2.7.11-slim
 
 MAINTAINER Ivan Gorbachev <ip0000h@gmail.com>
 
+USER appuser
+
 RUN apt-get update && apt-get install -qq -y --no-install-recommends \
     build-essential \
     libffi-dev \
