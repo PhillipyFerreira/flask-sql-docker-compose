@@ -11,7 +11,7 @@ LOG_FOLDER = '/tmp/'
 SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
 usuário = os.environ["PG_USER"] 
 senha = os.environ["PG_PASSWORD"] 
-uri = f"postgres://{usuário}:{senha}@example.com/testdb"
+uri = f"postgres://{usuário}:{senha}@postgresql/flask"
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
