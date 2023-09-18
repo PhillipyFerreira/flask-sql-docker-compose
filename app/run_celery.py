@@ -13,7 +13,7 @@ def make_celery(app=None):
     celery.conf.update(app.config)
     i = celery.Task
 
-    class ContextTask(TaskBase):
+    class ContextTask(i):
         abstract = True
 
         def __call__(self, *args, **kwargs):
