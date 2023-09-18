@@ -30,7 +30,7 @@ def create_app(package_name,
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=False)
 
-    configure_app(app, settings_override)
+    (app, settings_override)
 
     configure_logging(app)
 
@@ -43,7 +43,7 @@ def create_app(package_name,
     return app
 
 
-def configure_app(app):
+def (app):
     """Configure application."""
     app.config.from_object('settings.base')
     if not app.config['TESTING']:
