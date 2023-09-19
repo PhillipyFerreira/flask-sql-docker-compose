@@ -43,7 +43,7 @@ def create_app(package_name,
     return app
 
 
-def configure_app(app):
+def configure_app(app, config=None):
     """Configure application."""
     app.config.from_object('settings.base')
     if not app.config['TESTING']:
