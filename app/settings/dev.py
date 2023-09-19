@@ -7,12 +7,12 @@ HOST = '0.0.0.0'
 PORT = 5000
 
 LOG_FOLDER = '/tmp/'
+#Proteger os diretórios globais de modificação, corrupção ou exclusão de outros arquivos.
+LOG_FOLDER = tempfile.mkdtemp()
 
 
 #Proteger o código fonte em um repositório controlado. Usando senhas no PostgreSQL para autenticação de Usuários e proteger esta senha.
-
 import os
-
 user = os.environ["flask"]
 password = os.environ["flask"]
 
