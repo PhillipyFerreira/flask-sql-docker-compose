@@ -30,9 +30,16 @@ CELERY_RESULT_PERSISTENT = True
 CELERYD_POOL_RESTARTS = True
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 
+#as senhas, credenciais não devem ser codificadas
+
+import os
+
+username = os.getenv('postfix') # Compliant
+password = os.getenv('postfix') # Compliant
+usernamePassword = 'user=%s&password=%s' % (username, password) # Compliant{code}
+
+
 MAIL_SERVER = 'postfix'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
-MAIL_USERNAME = 'postfix'
-MAIL_PASSWORD = 'postfix'
 MAIL_DEFAULT_SENDER = 'support@postfix'
