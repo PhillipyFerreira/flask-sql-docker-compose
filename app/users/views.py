@@ -24,9 +24,7 @@ except ImportError:
     # migrations hack
     pass
 
-
 users = Blueprint('users', __name__)
-
 
 @users.route('/login', methods=['POST'])
 def login():
