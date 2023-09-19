@@ -43,13 +43,13 @@ def create_app(package_name,
     return app
 
 
-def configure_app(app, config=None):
+def configure_app(app):
     """Configure application."""
-    app.config.from_object('settings.base')
-    if not app.config['TESTING']:
-        app.config.from_envvar('FLASK_SETTINGS')
+    app.from_object('settings.base')
+    if not app['TESTING']:
+        app.from_envvar('FLASK_SETTINGS')
     else:
-        app.config.from_object('settings.testing')
+        app.from_object('settings.testing')
 
 
 def register_admin(app):
