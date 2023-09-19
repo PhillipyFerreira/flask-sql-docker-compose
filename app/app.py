@@ -6,6 +6,7 @@ import os
 # Import Flask app, modules and extensions
 from flask import Flask, render_template
 from flask_admin import Admin
+from flask_wtf.csrf import CSRFProtect
 
 # Import local modules
 from admin.views import AdminUserView
@@ -27,12 +28,11 @@ DEFAULT_APP_NAME = 'flaskapp'
 #Remova o parâmetro de função não utilizado "package_path".
 def create_app(package_name):
     """Flask app factory."""
-    
-
-    configure_app(app, settings_override)
-
+    app = Flask(package_name)
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+    configure_app(app)
     configure_logging(app)
-
     register_database(app)
     register_error_handlers(app)
     register_admin(app)
@@ -40,7 +40,6 @@ def create_app(package_name):
     register_blueprints(app)
 
     return app
-
 
 def configure_app(app, config=None):
     """Configure application."""
