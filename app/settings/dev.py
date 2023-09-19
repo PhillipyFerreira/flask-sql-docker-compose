@@ -10,10 +10,13 @@ LOG_FOLDER = '/tmp/'
 
 
 #Proteger o código fonte em um repositório controlado. Usando senhas no PostgreSQL para autenticação de Usuários e proteger esta senha.
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
-+ usuário = os.environ["PG_USER"] 
-+ senha = os.environ["PG_PASSWORD"] 
-+ uri = f"postgres://{usuário}:{senha}@example.com/testdb"
+
+import os
+
+user = os.environ["flask"]
+password = os.environ["flask"]
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
 
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
