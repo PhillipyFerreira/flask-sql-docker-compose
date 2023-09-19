@@ -8,7 +8,16 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+#SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+#Proteger o código fonte em um repositório controlado. Usando senhas no PostgreSQL para autenticação de Usuários e proteger esta senha.
+import os
+
+user = os.environ["PG_USER"]
+password = os.environ["PG_PASSWORD"]
+SQLALCHEMY_DATABASE_URI = f'postgresql://{user}:{password}@postgresql/flask'
+
+
+
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
