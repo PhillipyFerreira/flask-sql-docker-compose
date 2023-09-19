@@ -1,4 +1,6 @@
 FROM python:2.7.11-slim
+#Não executar a imagem python com root como usuário padrão. Isso deixa o código vulnerável.
+USER nonroot 
 
 MAINTAINER Ivan Gorbachev <ip0000h@gmail.com>
 
