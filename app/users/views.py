@@ -119,11 +119,11 @@ def settings():
     if request.method == 'POST' and form.validate_on_submit():
         if user.check_password(form.password.data):
             error = False
-            if not(user.email != form.email.data) and \
+            if not(user.email == form.email.data) and \
                not User.query.filter_by(email=form.email.data).scalar():
                 flash(u"This email already exist.", 'error')
                 error = True
-            if not(user.phone != form.phone.data) and \
+            if not(user.phone == form.phone.data) and \
                User.query.filter_by(phone=form.phone.data).scalar():
                 flash(u"This phone already exist.", 'error')
                 error = True
