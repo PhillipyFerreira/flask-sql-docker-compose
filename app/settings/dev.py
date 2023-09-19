@@ -11,8 +11,7 @@ SECRET_KEY = '<replace with a secret key>'
 HOST = '0.0.0.0'
 PORT = 5000
 
-LOG_FOLDER = '/tmp/'
-LOG_FOLDER = tempfile.mkdtemp()
+LOG_FOLDER = tempfile.mkdtemp() 
 
 SQLALCHEMY_DATABASE_URI = f"postgresql://{user}:{password}@postgresql/flask"
 SQLALCHEMY_ECHO = True
