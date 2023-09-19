@@ -6,7 +6,7 @@ from celery import Celery
 
 from app import create_app
 
-
+#Uma variável local ou nome de parâmetro de função precisam corresponder à expressão regular fornecida,  taskBase.
 def make_celery(app=None):
     app = app or create_app('celeryapp', os.path.dirname(__file__))
     celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
