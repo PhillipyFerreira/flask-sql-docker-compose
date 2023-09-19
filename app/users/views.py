@@ -119,25 +119,10 @@ def settings():
         abort(404)
     if request.method == 'POST' and form.validate_on_submit():
         if user.check_password(form.password.data):
-            error = False
-            if (user.email != form.email.data) and \
-               not User.query.filter_by(email=form.email.data).scalar():
-                flash(u"This email already exist.", 'error')
-                error = True
-            if (user.phone != form.phone.data) and \
-               User.query.filter_by(phone=form.phone.data).scalar():
-                flash(u"This phone already exist.", 'error')
-                error = True
-            user.email = form.email.data
-            user.phone = form.phone.data
-            new_password = form.new_password.data
-            confirm = form.confirm.data
-            if new_password and confirm and new_password == confirm:
-                user.set_password(new_password)
-            elif new_password and confirm:
-                flash(u"Passwords don't match.", 'error')
-            error = True
+            error = erro_valid_form(user, form)
             if not error:
+                user.email = form.email.data
+                user.phone = form.phone.data
                 db.session.add(user)
                 db.session.commit()
                 flash(u"Your changes have been saved.", 'success')
@@ -149,6 +134,25 @@ def settings():
         form.email.data = user.email
         form.phone.data = user.phone
     return render_template('users/settings.html', form=form)
+    
+ def erro_valid_form(user, form):
+    error = False
+    if (user.email != form.email.data) and \
+        not User.query.filter_by(email=form.email.data).scalar():
+        flash(u"This email already exist.", 'error')
+        error = True
+    if (user.phone != form.phone.data) and \
+        User.query.filter_by(phone=form.phone.data).scalar():
+        flash(u"This phone already exist.", 'error')
+        error = True
+    new_password = form.new_password.data
+    confirm = form.confirm.data
+    if new_password and confirm and new_password == confirm:
+        user.set_password(new_password)
+    elif new_password and confirm:
+        flash(u"Passwords don't match.", 'error')
+        error = True
+    return error
 
 
 @users.route('/confirm/<token>')
