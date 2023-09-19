@@ -25,7 +25,6 @@ CELERY_TRACK_STARTED = True
 CELERY_RESULT_PERSISTENT = True
 CELERYD_POOL_RESTARTS = True
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
-
 MAIL_SERVER = 'postfix'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
