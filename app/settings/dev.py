@@ -9,10 +9,10 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-user = os.getenv("PG_USER", "flask")
-password = os.getenv("PG_PASSWORD", "flask")
+usuario = os.getenv("PG_USER", "flask")
+senha = os.getenv("PG_PASSWORD", "flask")
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
+SQLALCHEMY_DATABASE_URI = 'postgresql://{usuario}:{senha}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
