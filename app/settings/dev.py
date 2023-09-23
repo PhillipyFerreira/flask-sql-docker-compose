@@ -8,7 +8,7 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+SQLALCHEMY_DATABASE_URI = 'postgresql://{MAIL_USERNAME}:{MAIL_PASSWORD}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
