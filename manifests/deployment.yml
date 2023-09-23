@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: phillipyferreiraflasksqldockercompose 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phillipyferreiraflasksqldockercompose
+  template:
+    metadata:
+      labels:
+        app: phillipyferreiraflasksqldockercompose 
+    spec:
+      containers:
+        - name: phillipyferreiraflasksqldockercompose 
+          image: templatedockerregistry.azurecr.io/phillipyferreiraflasksqldockercompose
+          ports:
+          - containerPort: 5000
