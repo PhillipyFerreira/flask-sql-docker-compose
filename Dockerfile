@@ -1,5 +1,7 @@
 FROM python:2.7.11-slim
 
+USER appuser
+
 MAINTAINER Ivan Gorbachev <ip0000h@gmail.com>
 
 RUN apt-get update && apt-get install -qq -y --no-install-recommends \
