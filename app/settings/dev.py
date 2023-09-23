@@ -13,7 +13,7 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
 # correção de vulnerabilidade para retirada de senha explícita em código disponível . Senha cadastrada em variável de ambiente
 user = os.environ["PG_USER"]
 password = os.environ["PG_PASSWORD"]
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+SQLALCHEMY_DATABASE_URI = 'postgresql://'postgresql://{user}:{password}@postgresql/flask''
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
