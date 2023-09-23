@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
+
+user = os.environ["PG_USER"]
+password = os.environ["PG_PASSWORD"]
+
+mail_user = os.environ["MAIL_USER"]
+mail_password = os.environ["MAIL_PASSWORD"]
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -8,7 +15,9 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+#Substituição por variaveis de ambiente
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
@@ -24,6 +33,6 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 MAIL_SERVER = 'postfix'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
-MAIL_USERNAME = 'postfix'
-MAIL_PASSWORD = 'postfix'
+MAIL_USERNAME = mail_user
+MAIL_PASSWORD = mail_password
 MAIL_DEFAULT_SENDER = 'support@postfix'
