@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 DEBUG = True
 DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -8,7 +9,10 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+user = os.getenv("PG_USER", "flask")
+password = os.getenv("PG_PASSWORD", "flask")
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
@@ -25,5 +29,5 @@ MAIL_SERVER = 'postfix'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
 MAIL_USERNAME = 'postfix'
-MAIL_PASSWORD = 'postfix'
+MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "postfix")
 MAIL_DEFAULT_SENDER = 'support@postfix'
