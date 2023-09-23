@@ -9,12 +9,10 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-user = os.userFull
-password = os.fullstack
-SQLALCHEMY_DATABASE_URI = 'postgresql://userFull:fullstack@postgresql/flask'
-user = os.userFull["PG_USER"]
-password = os.fullstack["PG_PASSWORD"]
-SQLALCHEMY_DATABASE_URI = f"postgresql://userFull:fullstack@postgresql/flask"
+user = os.getenv("PG_USER", "flask")
+password = os.getenv("PG_PASSWORD", "flask")
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@postgresql/flask'
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
@@ -26,9 +24,10 @@ CELERY_TRACK_STARTED = True
 CELERY_RESULT_PERSISTENT = True
 CELERYD_POOL_RESTARTS = True
 CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
 MAIL_SERVER = 'postfix'
 MAIL_PORT = 25
 MAIL_USE_TLS = False
 MAIL_USERNAME = 'postfix'
-MAIL_PASSWORD = 'postfix'
+MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "postfix")
 MAIL_DEFAULT_SENDER = 'support@postfix'
