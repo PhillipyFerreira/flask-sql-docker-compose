@@ -7,10 +7,18 @@ HOST = '0.0.0.0'
 PORT = 5000
 
 LOG_FOLDER = '/tmp/'
+# Login e senha do banco de dados exposto no código
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
+import os
+
+user = os.environ["PG_USER"]
+password = os.environ["PG_PASSWORD"]
+uri = f"postgres://{user}:{password}@example.com/testdb"
+
+SQLALCHEMY_DATABASE_URI = uri
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
+
 
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_ENABLE_UTC = False
