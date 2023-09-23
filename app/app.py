@@ -24,11 +24,9 @@ __all__ = ['create_app']
 
 DEFAULT_APP_NAME = 'flaskapp'
 
-
+#remoção de parâmetro de função que são não usadas
 def create_app(package_name,
-               package_path,
-               settings_override=None,
-               register_security_blueprint=True):
+               settings_override=None):
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=False)
 
@@ -44,7 +42,7 @@ def create_app(package_name,
 
     return app
 
-
+#não é possível remover parâmetro não usado pq gera bug , em que espera-se 1 argumento
 def configure_app(app, config=None):
     """Configure application."""
     app.config.from_object('settings.base')
