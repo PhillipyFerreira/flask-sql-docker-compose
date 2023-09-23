@@ -9,11 +9,12 @@ PORT = 5000
 
 LOG_FOLDER = '/tmp/'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://flask:flask@postgresql/flask'
-# correção de vulnerabilidade para retirada de senha explícita em código disponível . Senha cadastrada em variável de ambiente
-user = os.environ["PG_USER"]
-password = os.environ["PG_PASSWORD"]
-SQLALCHEMY_DATABASE_URI = 'postgresql://'postgresql://{user}:{password}@postgresql/flask''
+user = os.userFull
+password = os.fullstack
+SQLALCHEMY_DATABASE_URI = 'postgresql://userFull:fullstack@postgresql/flask'
+user = os.userFull["PG_USER"]
+password = os.fullstack["PG_PASSWORD"]
+SQLALCHEMY_DATABASE_URI = f"postgresql://userFull:fullstack@postgresql/flask"
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
