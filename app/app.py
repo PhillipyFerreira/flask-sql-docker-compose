@@ -6,6 +6,7 @@ import os
 # Import Flask app, modules and extensions
 from flask import Flask, render_template
 from flask_admin import Admin
+from flask_wtf.csrf import CSRFProtect
 
 # Import local modules
 from admin.views import AdminUserView
@@ -24,18 +25,14 @@ __all__ = ['create_app']
 
 DEFAULT_APP_NAME = 'flaskapp'
 
-
-def create_app(package_name,
-               package_path,
-               settings_override=None,
-               register_security_blueprint=True):
+#Remova o parâmetro de função não utilizado "package_path".
+def create_app(package_name):
     """Flask app factory."""
-    app = Flask(package_name, instance_relative_config=False)
-
-    configure_app(app, settings_override)
-
+    app = Flask(package_name)
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+    configure_app(app)
     configure_logging(app)
-
     register_database(app)
     register_error_handlers(app)
     register_admin(app)
@@ -44,14 +41,13 @@ def create_app(package_name,
 
     return app
 
-
-def configure_app(app, config=None):
+def configure_app(app):
     """Configure application."""
-    app.config.from_object('settings.base')
-    if not app.config['TESTING']:
-        app.config.from_envvar('FLASK_SETTINGS')
+    app.from_object('settings.base')
+    if not app['TESTING']:
+        app.from_envvar('FLASK_SETTINGS')
     else:
-        app.config.from_object('settings.testing')
+        app.from_object('settings.testing')
 
 
 def register_admin(app):

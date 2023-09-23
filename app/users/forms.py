@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#Deixar as constantes em um local único, podendo ser referenciadas em vários locais, e atualizadas em um único local.
+msgsenha = u'Passwords must match.'
 
 """Users forms."""
 from wtforms import TextField, PasswordField, BooleanField
@@ -28,7 +30,7 @@ class PasswordForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message= msgsenha)
         ]
     )
 
@@ -84,7 +86,7 @@ class SignUpForm(FlaskForm):
         u'Repeat password',
         validators=[
             DataRequired(),
-            EqualTo('password', message=u'Passwords must match.')
+            EqualTo('password', message= msgsenha)
         ]
     )
     recaptcha = RecaptchaField()
@@ -132,7 +134,7 @@ class SettingsForm(FlaskForm):
     confirm = PasswordField(
         u'Repeat new password',
         validators=[
-            EqualTo('new_password', message=u'Passwords must match.')
+            EqualTo('new_password', message= msgsenha)
         ]
     )
     recaptcha = RecaptchaField()
