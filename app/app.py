@@ -29,7 +29,7 @@ def create_app(package_name,
                settings_override=None,
                register_security_blueprint=True):
     """Flask app factory."""
-    app = Flask(package_name, instance_relative_config=False)
+    app = Flask(package_name, instance_relative_config=True)
 
     configure_app(app, settings_override)
 
