@@ -3,6 +3,10 @@
 # Import Stdlibs
 import os
 
+user = os.environ["PG_USER"]
+password = os.environ["PG_PASSWORD"]
+uri = f"postgres://{user}:{password}@example.com/testdb"
+
 # Import Flask app, modules and extensions
 from flask import Flask, render_template
 from flask_admin import Admin
