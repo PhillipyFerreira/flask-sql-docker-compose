@@ -31,8 +31,6 @@ def create_app(package_name,
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=True)
 
-    configure_logging(app)
-
     register_database(app)
     register_error_handlers(app)
     register_admin(app)
