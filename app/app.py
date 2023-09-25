@@ -31,8 +31,6 @@ def create_app(package_name,
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=True)
 
-    configure_app(app, settings_override)
-
     configure_logging(app)
 
     register_database(app)
@@ -80,9 +78,9 @@ def register_blueprints(app):
     app.register_blueprint(users_blueprint, url_prefix='/users')
 
 
-def configure_logging(app):
-    """Configure file(info) and email(error) logging."""
 
+    """Configure file(info) and email(error) logging."""
+    def configure_logging(app):
     import logging
     from logging.handlers import SMTPHandler
 
