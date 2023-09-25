@@ -26,15 +26,10 @@ DEFAULT_APP_NAME = 'flaskapp'
 
 
 def create_app(package_name,
-               package_path,
                settings_override=None,
-               register_security_blueprint=True):
+               ):
     """Flask app factory."""
-    app = Flask(package_name, instance_relative_config=False)
-
-    configure_app(app, settings_override)
-
-    configure_logging(app)
+    app = Flask(package_name, instance_relative_config=True)
 
     register_database(app)
     register_error_handlers(app)
@@ -45,7 +40,7 @@ def create_app(package_name,
     return app
 
 
-def configure_app(app, config=None):
+def configure_app(app):
     """Configure application."""
     app.config.from_object('settings.base')
     if not app.config['TESTING']:
@@ -81,9 +76,9 @@ def register_blueprints(app):
     app.register_blueprint(users_blueprint, url_prefix='/users')
 
 
-def configure_logging(app):
-    """Configure file(info) and email(error) logging."""
 
+    """Configure file(info) and email(error) logging."""
+    def configure_logging(app):
     import logging
     from logging.handlers import SMTPHandler
 
