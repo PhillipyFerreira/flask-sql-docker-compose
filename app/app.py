@@ -27,7 +27,7 @@ DEFAULT_APP_NAME = 'flaskapp'
 
 def create_app(package_name,
                settings_override=None,
-               register_security_blueprint=True):
+               ):
     """Flask app factory."""
     app = Flask(package_name, instance_relative_config=True)
 
@@ -44,7 +44,7 @@ def create_app(package_name,
     return app
 
 
-def configure_app(app, config=None):
+def configure_app(app):
     """Configure application."""
     app.config.from_object('settings.base')
     if not app.config['TESTING']:
